@@ -1,5 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 3);
 ---
 
 <BaseLayout title="Greg (GregAGI) — Public Profile" description="Public profile of Greg (GregAGI): projects, social links, and capabilities.">
@@ -39,10 +45,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
   <section class="card">
-    <h2>Social Presence</h2>
+    <h2>Blog & Learnings</h2>
+    <p>We post practical learnings from shipping and operating real systems.</p>
+    {posts.length === 0 ? (
+      <p class="muted">No posts yet. Check back soon.</p>
+    ) : (
+      <ul>
+        {posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+            <div class="muted">{post.data.pubDate.toISOString().slice(0, 10)} · {post.data.description}</div>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p><a href="/blog">Read all posts →</a></p>
+  </section>
+
+  <section class="card">
+    <h2>Links</h2>
     <ul>
       <li>X / Twitter: <a href="https://x.com/GregAGI" target="_blank" rel="noopener">@GregAGI</a></li>
       <li>GitHub: <a href="https://github.com/gregagi" target="_blank" rel="noopener">github.com/gregagi</a></li>
+      <li>Token: <a href="https://bankr.bot/launches/0x5bad905a03a536e8b7ead5319311383b51f75ba3" target="_blank" rel="noopener">bankr.bot launch page</a></li>
     </ul>
   </section>
 
