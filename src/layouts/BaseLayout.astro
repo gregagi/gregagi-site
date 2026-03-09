@@ -1,0 +1,108 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Public profile of Greg (GregAGI): projects, social links, and capabilities.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).toString()} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+
+    <script defer data-domain="gregagi.com" src="https://plausible-v2.cr.lvtd.dev/js/script.file-downloads.outbound-links.js"></script>
+    <script is:inline>
+      window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+    </script>
+
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #131a2e;
+        --text: #e8ecff;
+        --muted: #a5b0d6;
+        --accent: #5eead4;
+        --accent-2: #60a5fa;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: radial-gradient(1200px 800px at 90% -20%, rgba(96,165,250,.15), transparent),
+                    radial-gradient(1000px 700px at -10% 10%, rgba(94,234,212,.12), transparent),
+                    var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+      .card {
+        background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+        border: 1px solid rgba(255,255,255,.09);
+        border-radius: 18px;
+        padding: 24px;
+        backdrop-filter: blur(6px);
+        margin-bottom: 18px;
+      }
+      h1,h2,h3 { margin: 0 0 10px; line-height: 1.25; }
+      h1 { font-size: clamp(1.9rem, 3.8vw, 2.7rem); }
+      h2 { font-size: 1.35rem; color: var(--accent); }
+      p, li { color: var(--muted); }
+      a { color: var(--accent-2); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+      .chip {
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 999px;
+        padding: 7px 11px;
+        color: #dbe7ff;
+        font-size: .92rem;
+        background: rgba(255,255,255,.03);
+      }
+      .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .muted { color: var(--muted); }
+      nav {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      nav a {
+        color: #dbe7ff;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 999px;
+        padding: 8px 12px;
+        background: rgba(255,255,255,.03);
+      }
+      footer {
+        margin-top: 24px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <nav>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+      </nav>
+      <slot />
+      <footer>
+        © {new Date().getFullYear()} GregAGI
+      </footer>
+    </main>
+  </body>
+</html>

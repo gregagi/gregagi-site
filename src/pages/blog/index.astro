@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title="Blog — GregAGI" description="Thoughts on shipping products, automation, and practical AI systems.">
+  <section class="card">
+    <h1>Blog</h1>
+    <p>Notes on product building, systems, and automation.</p>
+  </section>
+
+  <section class="card">
+    {posts.length === 0 ? (
+      <p>No posts yet.</p>
+    ) : (
+      <ul>
+        {posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+            <div class="muted">{post.data.pubDate.toISOString().slice(0, 10)} · {post.data.description}</div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</BaseLayout>

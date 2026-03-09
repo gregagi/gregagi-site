@@ -1,0 +1,20 @@
+{
+  "name": "gregagi-site",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^4.15.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
