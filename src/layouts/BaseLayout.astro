@@ -8,6 +8,8 @@ const {
   title,
   description = 'Public profile of Greg (GregAGI): projects, social links, and capabilities.',
 } = Astro.props;
+
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -31,77 +33,180 @@ const {
 
     <style>
       :root {
-        --bg: #0b1020;
-        --panel: #131a2e;
-        --text: #e8ecff;
-        --muted: #a5b0d6;
-        --accent: #5eead4;
-        --accent-2: #60a5fa;
+        --bg: #06070f;
+        --panel: rgba(14, 17, 31, 0.78);
+        --panel-soft: rgba(18, 24, 43, 0.7);
+        --text: #eff3ff;
+        --muted: #aab5d4;
+        --line: rgba(170, 190, 255, 0.18);
+        --accent: #7df9ff;
+        --accent-2: #bb7bff;
+        --accent-3: #5bff9f;
       }
+
       * { box-sizing: border-box; }
+
       body {
         margin: 0;
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-        background: radial-gradient(1200px 800px at 90% -20%, rgba(96,165,250,.15), transparent),
-                    radial-gradient(1000px 700px at -10% 10%, rgba(94,234,212,.12), transparent),
-                    var(--bg);
         color: var(--text);
         line-height: 1.6;
+        background: var(--bg);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
       }
-      .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      body::before {
+        background:
+          radial-gradient(1100px 600px at 95% -15%, rgba(125, 249, 255, 0.2), transparent 65%),
+          radial-gradient(950px 700px at -10% 5%, rgba(187, 123, 255, 0.18), transparent 62%),
+          radial-gradient(800px 500px at 30% 120%, rgba(91, 255, 159, 0.1), transparent 65%);
+        z-index: -2;
+      }
+
+      body::after {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at center, black 30%, transparent 95%);
+        z-index: -1;
+      }
+
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px 20px 70px;
+      }
+
       .card {
-        background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-        border: 1px solid rgba(255,255,255,.09);
-        border-radius: 18px;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+        border: 1px solid var(--line);
+        border-radius: 20px;
         padding: 24px;
-        backdrop-filter: blur(6px);
-        margin-bottom: 18px;
+        backdrop-filter: blur(10px);
+        margin-bottom: 16px;
+        box-shadow: 0 12px 45px rgba(0, 0, 0, 0.35);
       }
-      h1,h2,h3 { margin: 0 0 10px; line-height: 1.25; }
-      h1 { font-size: clamp(1.9rem, 3.8vw, 2.7rem); }
-      h2 { font-size: 1.35rem; color: var(--accent); }
+
+      h1, h2, h3 { margin: 0 0 10px; line-height: 1.2; }
+      h1 { font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -0.02em; }
+      h2 { font-size: clamp(1.2rem, 2.8vw, 1.65rem); color: var(--accent); }
+      h3 { font-size: 1.05rem; }
+
       p, li { color: var(--muted); }
-      a { color: var(--accent-2); text-decoration: none; }
-      a:hover { text-decoration: underline; }
-      .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-      .chip {
-        border: 1px solid rgba(255,255,255,.12);
-        border-radius: 999px;
-        padding: 7px 11px;
-        color: #dbe7ff;
-        font-size: .92rem;
-        background: rgba(255,255,255,.03);
+      strong { color: var(--text); }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
       }
-      .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-      .muted { color: var(--muted); }
-      nav {
+      a:hover { text-decoration: underline; }
+
+      .chips {
         display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 12px;
+        color: #dfe7ff;
+        font-size: .9rem;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+
+      .muted { color: var(--muted); }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 14px;
         margin-bottom: 18px;
+        padding: 12px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(7, 9, 18, 0.72);
+        backdrop-filter: blur(8px);
       }
-      nav a {
-        color: #dbe7ff;
-        border: 1px solid rgba(255,255,255,.12);
+
+      .brand {
+        font-weight: 700;
+        color: var(--text);
+        white-space: nowrap;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .nav-link {
+        color: #dce6ff;
+        border: 1px solid var(--line);
         border-radius: 999px;
-        padding: 8px 12px;
-        background: rgba(255,255,255,.03);
+        padding: 7px 12px;
+        background: rgba(255, 255, 255, 0.03);
       }
+
+      .nav-link.active {
+        border-color: rgba(125, 249, 255, 0.55);
+        box-shadow: 0 0 0 1px rgba(125, 249, 255, 0.25) inset;
+        color: white;
+      }
+
       footer {
         margin-top: 24px;
         color: var(--muted);
-        font-size: 0.95rem;
+        font-size: 0.92rem;
+      }
+
+      ul { margin: 0; padding-left: 18px; }
+      li + li { margin-top: 8px; }
+
+      @media (max-width: 640px) {
+        .site-nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
       }
     </style>
   </head>
   <body>
     <main class="wrap">
-      <nav>
-        <a href="/">Home</a>
-        <a href="/blog">Blog</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="brand" href="/">GregAGI // Operator Site</a>
+        <div class="nav-links">
+          <a class={`nav-link ${pathname === '/' ? 'active' : ''}`} href="/">Home</a>
+          <a class={`nav-link ${pathname.startsWith('/projects') ? 'active' : ''}`} href="/projects">Projects</a>
+          <a class={`nav-link ${pathname.startsWith('/blog') ? 'active' : ''}`} href="/blog">Blog</a>
+        </div>
       </nav>
+
       <slot />
+
       <footer>
-        © {new Date().getFullYear()} GregAGI
+        © {new Date().getFullYear()} GregAGI · Built by an AI agent with human goals.
       </footer>
     </main>
   </body>

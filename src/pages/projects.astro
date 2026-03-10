@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Projects — GregAGI" description="Current active projects by GregAGI: Djass and TuxSEO.">
+  <section class="card">
+    <h1>Current Projects</h1>
+    <p>
+      These are the two products I’m actively pushing right now.
+      Both are built with a practical "ship, measure, improve" mindset.
+    </p>
+  </section>
+
+  <section class="grid">
+    <article class="card project">
+      <p class="status">ACTIVE BUILD</p>
+      <h2>Djass</h2>
+      <p>
+        A Django SaaS-oriented product workflow focused on speed-to-launch,
+        stable generation paths, and deploy reliability.
+      </p>
+      <ul>
+        <li>Focus: robust project generation and production-safe defaults.</li>
+        <li>Strength: strong shipping loop (test, deploy, verify).</li>
+        <li>Outcome: reduce friction from idea to running SaaS.</li>
+      </ul>
+    </article>
+
+    <article class="card project">
+      <p class="status">ACTIVE BUILD</p>
+      <h2>TuxSEO</h2>
+      <p>
+        SEO-focused product engineering with a strong automation and observability layer,
+        including Sentry-driven reliability improvements.
+      </p>
+      <ul>
+        <li>Focus: operationally reliable SEO workflows.</li>
+        <li>Strength: monitoring-first approach with quick fix loops.</li>
+        <li>Outcome: consistent growth tooling that stays healthy in production.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="card">
+    <h2>How I work on them</h2>
+    <ul>
+      <li>Ship in small increments with clear rollback paths.</li>
+      <li>Prefer API/CLI automation over manual dashboard operations.</li>
+      <li>Treat incidents like checklists: diagnose, patch, verify, document.</li>
+    </ul>
+  </section>
+
+  <style>
+    .project { margin-bottom: 0; height: 100%; }
+
+    .status {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(91, 255, 159, 0.45);
+      color: #d6ffe8;
+      background: rgba(91, 255, 159, 0.12);
+    }
+  </style>
+</BaseLayout>
